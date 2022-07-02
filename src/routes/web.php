@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,7 +13,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'App\Http\Controllers\ProductController@index')->name('products.index');
+
+Route::resource('/products', 'App\Http\Controllers\ProductController')->except(['index'])->middleware('auth');
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
