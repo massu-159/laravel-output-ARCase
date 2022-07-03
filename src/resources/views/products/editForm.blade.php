@@ -12,7 +12,7 @@
       -webkit-box-shadow: 0 0 1px 1px rgba(195, 195, 195, 0.3);
       display: inline-block;
       margin: 10px auto;
-      background-image: url({{ asset('/img/default1234.png')}});
+      background-image: url({{ Storage::url($product->image) }});
     }
   </style>
 </head>
@@ -23,7 +23,8 @@
   <div class="input-group">
     <label class="input-group-btn">
       <span class="btn blue-gradient btn-block">
-        UPLOAD<input type="file" name="image" style="display:none" class="uploadFile" accept="image/png,image/jpeg,image/gif">
+        UPLOAD<input type="file" name="image" style="display:none" class="uploadFile"
+          accept="image/png,image/jpeg,image/gif">
       </span>
     </label>
   </div>
@@ -48,14 +49,15 @@
         });
   </script>
 
-<div class="md-form">
-  <label>タイトル</label>
-  <input type="text" name="title" class="form-control" required value="{{ $product->title ?? old('title') }}">
-</div>
-<div class="form-group">
-  <label></label>
-  <textarea name="body" required class="form-control" rows="16" placeholder="本文">{{ $product->body ?? old('body') }}</textarea>
-</div>
+  <div class="md-form">
+    <label>タイトル</label>
+    <input type="text" name="title" class="form-control" required value="{{ $product->title ?? old('title') }}">
+  </div>
+  <div class="form-group">
+    <label></label>
+    <textarea name="body" required class="form-control" rows="16"
+      placeholder="本文">{{ $product->body ?? old('body') }}</textarea>
+  </div>
 </body>
 
 </html>
