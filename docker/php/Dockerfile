@@ -11,11 +11,14 @@ COPY --from=node:12.14 /usr/local/bin /usr/local/bin
 COPY --from=node:12.14 usr/local/lib /usr/local/lib
 
 RUN apt-get update && \
-    apt-get -y install \
+    apt-get -y install wget git unzip libpq-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
     git \
     zip \
     unzip \
     vim \
-    && docker-php-ext-install pdo_mysql bcmath
+    && docker-php-ext-install pdo_mysql bcmath \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd
+
 
 WORKDIR /var/www/html

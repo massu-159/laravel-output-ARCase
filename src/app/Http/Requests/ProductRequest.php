@@ -26,6 +26,7 @@ class ProductRequest extends FormRequest
         return [
             'title' => 'required|max:50',
             'body' => 'required|max:3000',
+            'image' => 'required|image|mimes:jpeg,png,jpg,pdf',
         ];
     }
 
@@ -34,6 +35,7 @@ class ProductRequest extends FormRequest
         return [
             'title' => 'タイトル',
             'body' => '本文',
+            'image' => '画像',
         ];
     }
 }

@@ -6,6 +6,9 @@ use App\Models\Product;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -18,23 +21,37 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all()->sortByDesc('created_at')->load('user', 'likes');
+        $user = Auth::user();
 
-        return view('products.index', compact('products'));
+        return view('products.index', compact('products', 'user'));
     }
 
     public function create()
     {
-        return view('products.create');
+        $user = Auth::user();
+        return view('products.create', ['user' => $user]);
     }
 
     public function edit(Product $product)
     {
-        return view('products.edit', ['product' => $product]);
+        $user = Auth::user();
+        return view('products.edit', [
+            'product' => $product,
+            'user' => $user,
+        ]);
     }
     
     public function show(Product $product)
     {
-        return view('products.show', ['product' => $product]);
+        $html = Str::of($product->body)->markdown([
+            'html_input' => 'escape',
+        ]);
+        $user = Auth::user();
+        return view('products.show', [
+            'product' => $product,
+            'body' => $html,
+            'user' => $user,
+    ]);
     }
 
     // 登録処理
@@ -42,14 +59,20 @@ class ProductController extends Controller
     {
         
         // リクエストした画像を取得
-        $img = $request->file('image');
-        if (isset($img)) {
-            // storageに保存
-            $imgPath = $request->image->store('img', 'public');
-            if ($imgPath) {
-                // DBに登録
-                $product->image = $imgPath;
-            }
+        $file = $request->file('image');
+        if (isset($file)) {
+            //画像の拡張子取得
+            $extension = $request->image->extension();
+            //新しいファイル名作成
+            $img_name = uniqid(mt_rand()) . '.' . $extension;
+            // サイズを変更する
+            $img = Image::make($file)->fit(640, 360, function($constraint){
+                $constraint->upsize();
+            });
+            // リサイズした画像をstorageに保存
+            $img->save(storage_path() . '/app/public/img/' . $img_name);
+            // DBに登録
+            $product->image = $img_name;
         }
         $product->fill($request->all());
         $product->user_id = $request->user()->id;
@@ -61,14 +84,20 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product)
     {
         // リクエストした画像を取得
-        $img = $request->file('image');
-        if (isset($img) && $img != 'default1234.png') {
-            // storageに保存
-            $imgPath = $request->image->store('img', 'public');
-            if ($imgPath) {
-                // DBに登録
-                $product->image = $imgPath;
-            }
+        $file = $request->file('image');
+        if (isset($file)) {
+            //画像の拡張子取得
+            $extension = $request->image->extension();
+            //新しいファイル名作成
+            $img_name = uniqid(mt_rand()) . '.' . $extension;
+            // サイズを変更する
+            $img = Image::make($file)->fit(640, 360, function($constraint){
+                $constraint->upsize();
+            });
+            // リサイズした画像をstorageに保存
+            $img->save(storage_path() . '/app/public/img/' . $img_name);
+            // DBに登録
+            $product->image = $img_name;
         }
         $product->fill($request->all());
         $product->save();

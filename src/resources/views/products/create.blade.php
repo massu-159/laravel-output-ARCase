@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('title', '記事投稿')
+@section('title', 'アップロード')
 
 @include('nav')
 
@@ -8,13 +8,15 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <div class="card mt-3">
-        <div class="card-body pt-0">
+      <div class="card border-0">
+        <div class="card-body pt-0 px-0">
           @include('error_card_list')
           <div class="card-text">
             <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
               @include('products.form')
-              <button type="submit" class="btn blue-gradient btn-block">投稿する</button>
+              <div class="text-center">
+                <button type="submit" class="btn purple-gradient grow">アップロードする</button>
+              </div>
             </form>
           </div>
         </div>

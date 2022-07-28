@@ -1,7 +1,7 @@
 <template>
   <div>
     <button
-      class="btn-sm shadow-none border border-primary p-2"
+      class="btn-sm shadow-none border border-dark p-2"
       :class="buttonColor"
       @click="clickFollow"
     >
@@ -37,7 +37,7 @@
     computed: {
       buttonColor() {
         return this.isFollowedBy
-          ? 'bg-primary text-white'
+          ? 'purple-gradient text-white border-0'
           : 'bg-white'
       },
       buttonIcon() {
@@ -47,8 +47,8 @@
       },
       buttonText() {
         return this.isFollowedBy
-          ? 'フォロー中'
-          : 'フォロー'
+          ? 'following'
+          : 'follow'
       },
     },
     methods: {

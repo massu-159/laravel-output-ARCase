@@ -38,6 +38,6 @@ Route::prefix('users')->name('users.')->group(function(){
         Route::put('/{name}/follow', 'App\Http\Controllers\UserController@follow')->name('follow');
         Route::delete('/{name}/follow', 'App\Http\Controllers\UserController@unfollow')->name('unfollow');
     });
-});
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::patch('/profile', 'App\Http\Controllers\UserController@update')->name('update')->middleware('auth');
+});

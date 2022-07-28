@@ -1,12 +1,14 @@
 @extends('app')
 
-@section('title', '記事一覧')
+@section('title', 'library')
 
 @section('content')
 @include('nav')
 <div class="container">
-  @foreach ($products as $product)
-    @include('products.card')
-  @endforeach
+  <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
+    @foreach ($products as $product)
+      @include('products.card')
+    @endforeach
+  </div>
 </div>
 @endsection

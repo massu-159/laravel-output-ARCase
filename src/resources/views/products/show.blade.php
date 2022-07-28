@@ -1,22 +1,32 @@
 @extends('app')
 
-@section('title', '記事詳細')
+@section('title', 'detail')
 
 @section('content')
 @include('nav')
-<div class="container">
-  <div class="card mt-3">
-    <img src="{{ Storage::url($product->image) }}" class="img-fluid" />
+<div class="container col-md-8">
+  <div class="card mt-3 border-0">
+    <img src="{{ asset('storage/img/' . $product->image) }}" class="img-fluid shadow rounded" style="max-width: 600px;"/>
     <div class="card-body d-flex flex-row pb-0">
   
-  
-      <i class="fas fa-user-circle fa-3x mr-1"></i>
+      <a href="{{ route('users.show', ['name' => $product->user->name]) }}" class="text-dark grow">
+        @if ($product->user->icon_image != null)
+        <img src="{{ asset('storage/img/' . $product->user->icon_image) }}" alt="" style="width: 52px; border-radius: 50%;" class="shadow">
+        @else
+        <i class="fas fa-user-circle fa-3x mr-1"></i>
+        @endif
+      </a>
       <div class="card-body pt-0 pb-2">
-        <h3 class="h4 card-title pt-2">
-          <a class="text-dark" href="{{ route('products.show', ['product' => $product]) }}">
+        <h3 class="h4 card-title pt-2 mb-0">
+          <a class="text-dark" href="{{ route('products.show', ['product' => $product]) }}" style="text-decoration:none;">
             {{ $product->title }}
           </a>
         </h3>
+        <div>
+          <a href="{{ route('users.show', ['name' => $product->user->name]) }}" class="card-text" style="text-decoration:none;">
+            {{ $product->user->name }}
+          </a>
+        </div>
       </div>
       @if( Auth::id() === $product->user_id )
       <!-- dropdown -->
@@ -29,11 +39,11 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="{{ route("products.edit", ['product'=> $product]) }}">
-              <i class="fas fa-pen mr-1"></i>更新
+              <i class="fas fa-pen mr-1"></i>Edit
             </a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item text-danger" data-toggle="modal" data-target="#modal-delete-{{ $product->id }}">
-              <i class="fas fa-trash-alt mr-1"></i>削除
+              <i class="fas fa-trash-alt mr-1"></i>Delete
             </a>
           </div>
         </div>
@@ -57,7 +67,7 @@
               </div>
               <div class="modal-footer justify-content-between">
                 <a class="btn btn-outline-grey" data-dismiss="modal">キャンセル</a>
-                <button type="submit" class="btn btn-danger">削除する</button>
+                <button type="submit" class="btn btn-danger">Delete</button>
               </div>
             </form>
           </div>
@@ -67,16 +77,65 @@
       @endif
     </div>
     <div class="pl-2">
-      <div class="font-weight-normal">
-        {{ $product->user->name }}
-      </div>
       <div class="font-weight-lighter">
         {{ $product->created_at->format('Y/m/d H:i') }}
+        <div class="card-body pt-0 pb-2 pl-3">
+          <div class="card-text d-flex justify-content-end">
+            <div>
+              <product-like class="grow" :initial-is-liked-by='@json($product->isLikedBy(Auth::user()))'
+                :initial-count-likes='@json($product->count_likes)' :authorized='@json(Auth::check())'
+                endpoint="{{ route('products.like', ['product' => $product]) }}">
+        
+              </product-like>
+            </div>
+            <div class="card-text">
+              <div class="dropdown">
+                <a data-toggle="modal" data-target="#modal-share" class="btn btn-link text-muted ml-3 my-0 p-1 grow">
+                  <i class="fas fa-share-square"></i>
+                </a>
+                <div id="modal-share" class="modal fade" tabindex="-1" role="dialog">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+        
+                      <div class="modal-body text-center">
+                        <!-- Facebook -->
+                        <a class="js-sns-link btn mr-3 purple-gradient" href="//www.facebook.com/sharer/sharer.php?u=&t=" target="_blank"
+                          rel="nofollow noopener noreferrer"><i class="fab fa-facebook fa-2x"></i></a>
+        
+                        <!-- Twitter -->
+                        <a class="js-sns-link btn mr-3 purple-gradient" href="//twitter.com/intent/tweet?text=&url=" target="_blank"
+                          rel="nofollow noopener noreferrer"><i class="fab fa-twitter fa-2x"></i></a>
+        
+                        <!-- LINE -->
+                        <a class="js-sns-link btn mr-3 purple-gradient" href="//timeline.line.me/social-plugin/share?url=&text=" target="_blank"
+                          rel="nofollow noopener noreferrer"><i class="fab fa-line fa-2x"></i></a>
+        
+                        <!-- ピンタレスト -->
+                        <a class="js-sns-link btn mr-3 purple-gradient" href="//www.pinterest.com/pin/create/button/?url=&media="
+                          target="_blank" rel="nofollow noopener noreferrer"><i class="fab fa-pinterest fa-2x"></i></a>
+
+                          <copy-clipboard :current-url="'{{ url()->full() }}'"></copy-clipboard>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
       </div>
     </div>
     <hr color="#F3F3F3">
-    <div class="card-text px-5 py-2">
-      {{ $product->body }}
+    <div class="card-text px-2 py-2">
+      <div style="overflow: visible; overflow-wrap: break-word; white-space: pre-wrap;">
+        {!! $body !!}
+      </div>
     </div>
   </div>
 </div>

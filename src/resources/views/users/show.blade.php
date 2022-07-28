@@ -10,17 +10,19 @@
   <ul class="nav nav-tabs nav-justified mt-3">
     <li class="nav-item">
       <a class="nav-link text-muted active" href="{{ route('users.show', ['name' => $user->name]) }}">
-        プロダクト
+        Products
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link text-muted" href="{{ route('users.likes', ['name' => $user->name]) }}">
-        いいね
+        お気に入り
       </a>
     </li>
   </ul>
-  @foreach($products as $product)
-  @include('products.card')
-  @endforeach
+  <div style="justify-content: center; display: flex; flex-direction: row; flex-wrap: wrap;">
+    @foreach ($products as $product)
+    @include('products.card')
+    @endforeach
+  </div>
 </div>
 @endsection
