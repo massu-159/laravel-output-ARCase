@@ -18,3 +18,7 @@ mix.js('resources/js/app.js', 'public/js')
         processCssUrls: false
     })
     .version();
+
+if (mix.inProduction()) {
+    mix.version();
+}
