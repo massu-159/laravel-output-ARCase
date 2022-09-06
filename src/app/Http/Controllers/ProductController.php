@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Http\File;
+use Illuminate\Pagination\Paginator;
 
 class ProductController extends Controller
 {
@@ -20,7 +22,7 @@ class ProductController extends Controller
     // 表示処理
     public function index()
     {
-        $products = Product::all()->sortByDesc('created_at')->load('user', 'likes');
+        $products = Product::orderByDesc('created_at')->paginate(12);
         $user = Auth::user();
 
         return view('products.index', compact('products', 'user'));
@@ -57,7 +59,6 @@ class ProductController extends Controller
     // 登録処理
     public function store(ProductRequest $request, Product $product)
     {
-        
         // リクエストした画像を取得
         $file = $request->file('image');
         if (isset($file)) {
@@ -65,14 +66,23 @@ class ProductController extends Controller
             $extension = $request->image->extension();
             //新しいファイル名作成
             $img_name = uniqid(mt_rand()) . '.' . $extension;
+
+            $tmp_path = storage_path() . '/app/public/img/' . $img_name;
             // サイズを変更する
             $img = Image::make($file)->fit(640, 360, function($constraint){
                 $constraint->upsize();
             });
             // リサイズした画像をstorageに保存
-            $img->save(storage_path() . '/app/public/img/' . $img_name);
+            $img->save($tmp_path);
+            // リサイズした画像をs3に保存
+            $s3_save = Storage::disk('s3')->putFile('/', new File($tmp_path), 'public');
+            // // s3に保存した画像のURLを取得
+            // $s3_path = Storage::disk('s3')->url($s3_save);
             // DBに登録
-            $product->image = $img_name;
+            $product->image = $s3_save;
+
+            // Storageに一時保存した画像を削除
+            Storage::disk('public')->delete('img/' . $img_name);
         }
         $product->fill($request->all());
         $product->user_id = $request->user()->id;
@@ -90,14 +100,27 @@ class ProductController extends Controller
             $extension = $request->image->extension();
             //新しいファイル名作成
             $img_name = uniqid(mt_rand()) . '.' . $extension;
+            
+            $tmp_path = storage_path() . '/app/public/img/' . $img_name;
             // サイズを変更する
-            $img = Image::make($file)->fit(640, 360, function($constraint){
+            $img = Image::make($file)->fit(640, 360, function ($constraint) {
                 $constraint->upsize();
             });
             // リサイズした画像をstorageに保存
-            $img->save(storage_path() . '/app/public/img/' . $img_name);
+            $img->save($tmp_path);
+            // リサイズした画像をs3に保存
+            $s3_save = Storage::disk('s3')->putFile('/', new File($tmp_path), 'public');
+            // // s3に保存した画像のURLを取得
+            // $s3_path = Storage::disk('s3')->url($s3_save);
+            
+            // Storageに一時保存した画像データを削除
+            Storage::disk('public')->delete('img/' . $img_name);
+
+            // 更新前の画像データを削除
+            Storage::disk('s3')->delete($product->image);
+
             // DBに登録
-            $product->image = $img_name;
+            $product->image = $s3_save;
         }
         $product->fill($request->all());
         $product->save();
@@ -107,8 +130,8 @@ class ProductController extends Controller
     // 削除処理
     public function destroy(Product $product)
     {
-        // storage内の画像データ削除
-        Storage::disk('public')->delete($product->image);
+        // s3内の画像データ削除
+        Storage::disk('s3')->delete($product->image);
         // DB内のプロダクトデータ削除
         $product->delete();
         return redirect()->route('products.index');
