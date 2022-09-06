@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
 
 
 class UserController extends Controller
@@ -98,19 +99,29 @@ class UserController extends Controller
         $file = $request->file('icon_image');
         if (isset($file)) {
             // 元のアイコン画像がある場合、ストレージから削除
-            Storage::disk('public')->delete($path);
+            Storage::disk('s3')->delete($path);
             //画像の拡張子取得
             $extension = $request->icon_image->extension();
             //新しいファイル名作成
             $img_name = uniqid(mt_rand()) . '.' . $extension;
+            
+            $tmp_path = storage_path() . '/app/public/img/' . $img_name;
             // サイズを変更する
             $img = Image::make($file)->fit(320, 320, function ($constraint) {
                 $constraint->upsize();
             });
-            // リサイズした画像をstorageに保存
-            $img->save(storage_path() . '/app/public/img/' . $img_name);
+            // リサイズした画像をstorageに一時保存
+            $img->save($tmp_path);
+            // リサイズした画像をs3に保存
+            $s3_save = Storage::disk('s3')->putFile('/', new File($tmp_path), 'public');
+            // // s3に保存した画像のURLを取得
+            // $s3_path = Storage::disk('s3')->url($s3_save);
+
+            // Storageに一時保存した画像データを削除
+            Storage::disk('public')->delete('img/' . $img_name);
+
             // DBに登録
-            $user->icon_image = $img_name;
+            $user->icon_image = $s3_save;
         } else {
             $user->icon_image = null;
         }

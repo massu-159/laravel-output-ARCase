@@ -3,7 +3,7 @@
     <div class="d-flex flex-row">
       <a href="{{ route('users.show', ['name' => $person->name]) }}" class="text-dark grow">
         @if ($person->icon_image != null)
-        <img src="{{ asset('storage/img/' . $person->icon_image) }}" alt="アイコン画像" style="width: 52px; border-radius: 50%;">
+        <img src="https://arcase.s3.ap-northeast-1.amazonaws.com/{{ $person->icon_image }}" alt="アイコン画像" style="width: 52px; border-radius: 50%;">
         @else
         <i class="fas fa-user-circle fa-3x"></i>
         @endif

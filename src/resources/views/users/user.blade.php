@@ -5,7 +5,7 @@
 
       <a data-toggle="modal" data-target="#modal-icon" class="grow">
         @if ($user->icon_image != null)
-        <img src="{{ asset('storage/img/' . $user->icon_image) }}" alt="アイコン画像" style="width: 60px; border-radius: 50%;">
+        <img src="https://arcase.s3.ap-northeast-1.amazonaws.com/{{ $user->icon_image }}" alt="アイコン画像" style="width: 60px; border-radius: 50%;">
         @else
         <i class="fas fa-user-circle fa-3x"></i>
         @endif
@@ -29,7 +29,7 @@
 
       <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark grow">
         @if ($user->icon_image != null)
-            <img src="{{ asset('storage/img/' . $user->icon_image) }}" alt="アイコン画像" style="width: 60px; border-radius: 50%;">
+            <img src="https://arcase.s3.ap-northeast-1.amazonaws.com/{{ $user->icon_image }}" alt="アイコン画像" style="width: 60px; border-radius: 50%;">
         @else
         <i class="fas fa-user-circle fa-3x"></i>
         @endif

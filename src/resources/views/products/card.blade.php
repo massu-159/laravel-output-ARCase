@@ -1,11 +1,11 @@
 <div class="card mt-4 mr-3 px-0 grow col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2" style="min-width: 250px;">
     <a class="img-fluid" href="{{ route('products.show', ['product' => $product]) }}">
-      <img src="{{ asset('storage/img/' . $product->image) }}" class="img-fluid rounded shadow" />
+      <img src="https://arcase.s3.ap-northeast-1.amazonaws.com/{{ $product->image }}" class="img-fluid rounded shadow" />
     </a>
   <div class="card-body d-flex flex-row pb-0 pt-1 pr-0">
     <a href="{{ route('users.show', ['name' => $product->user->name]) }}" class="text-dark">
       @if ($product->user->icon_image != null)
-      <img src="{{ asset('storage/img/' . $product->user->icon_image) }}" alt="" style="width: 52px; border-radius: 50%;" class="shadow">
+      <img src="https://arcase.s3.ap-northeast-1.amazonaws.com/{{ $product->user->icon_image }}" alt="" style="width: 52px; border-radius: 50%;" class="shadow">
       @else
       <i class="fas fa-user-circle fa-3x mr-1"></i>
       @endif
@@ -45,38 +45,36 @@
       </div>
     </div>
     <!-- dropdown -->
-    
-    <!-- modal -->
-    <div id="modal-delete-{{ $product->id }}" class="modal fade" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <form method="POST" action="{{ route('products.destroy', ['product' => $product]) }}">
-            @csrf
-            @method('DELETE')
-            <div class="modal-body">
-              {{ $product->title }}を削除します。よろしいですか？
-            </div>
-            <div class="modal-footer justify-content-between">
-              <a class="btn btn-outline-grey" data-dismiss="modal">キャンセル</a>
-              <button type="submit" class="btn btn-danger">削除する</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <!-- modal -->
     @endif
   </div>
   <div class="pl-3">
     <div class="font-weight-lighter d-flex text-muted">
-        {{ $product->created_at->format('Y/m/d H:i') }}
+      {{ $product->created_at->format('Y/m/d H:i') }}
     </div>
   </div>
 </div>
 
-
+<!-- modal -->
+<div id="modal-delete-{{ $product->id }}" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="{{ route('products.destroy', ['product' => $product]) }}">
+        @csrf
+        @method('DELETE')
+        <div class="modal-body">
+          {{ $product->title }}を削除します。よろしいですか？
+        </div>
+        <div class="modal-footer justify-content-between">
+          <a class="btn btn-outline-grey" data-dismiss="modal">キャンセル</a>
+          <button type="submit" class="btn btn-danger">削除する</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- modal -->

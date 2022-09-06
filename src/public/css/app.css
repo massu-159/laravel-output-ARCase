@@ -1,4 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
+.container {
+  padding-top: 5rem;
+}
+
 .float {
   display: inline-block;
   transition-duration: 0.3s;

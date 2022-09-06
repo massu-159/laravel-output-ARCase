@@ -6,12 +6,12 @@
 @include('nav')
 <div class="container col-md-8">
   <div class="card mt-3 border-0">
-    <img src="{{ asset('storage/img/' . $product->image) }}" class="img-fluid shadow rounded" style="max-width: 600px;"/>
+    <img src="https://arcase.s3.ap-northeast-1.amazonaws.com/{{ $product->image }}" class="img-fluid shadow rounded" style="max-width: 600px;"/>
     <div class="card-body d-flex flex-row pb-0">
   
       <a href="{{ route('users.show', ['name' => $product->user->name]) }}" class="text-dark grow">
         @if ($product->user->icon_image != null)
-        <img src="{{ asset('storage/img/' . $product->user->icon_image) }}" alt="" style="width: 52px; border-radius: 50%;" class="shadow">
+        <img src="https://arcase.s3.ap-northeast-1.amazonaws.com/{{ $product->user->icon_image }}" alt="" style="width: 52px; border-radius: 50%;" class="shadow">
         @else
         <i class="fas fa-user-circle fa-3x mr-1"></i>
         @endif

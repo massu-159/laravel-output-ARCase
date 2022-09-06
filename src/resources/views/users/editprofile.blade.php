@@ -3,7 +3,7 @@
     @csrf
     @method('PATCH')
     @if ($user->icon_image != null)
-    <icon-preview :back-ground="'{{ asset('storage/img/' . $user->icon_image) }}'"></icon-preview>
+    <icon-preview :back-ground="'https://arcase.s3.ap-northeast-1.amazonaws.com/{{ $user->icon_image }}'"></icon-preview>
     @else
     <icon-preview-default></icon-preview-default>
     @endif

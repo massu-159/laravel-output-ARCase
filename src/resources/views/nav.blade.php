@@ -28,7 +28,7 @@
       <a class="nav-link dropdown-toggle grow" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
         aria-expanded="false">
         @if (Auth::user()->icon_image != null)
-        <img src="{{ asset('storage/img/' . Auth::user()->icon_image) }}" alt="" style="width: 28px; border-radius: 50%;">
+        <img src="https://arcase.s3.ap-northeast-1.amazonaws.com/{{ Auth::user()->icon_image }}" alt="" style="width: 28px; border-radius: 50%;">
         @else
         <i class="fas fa-user-circle fa-lg"></i>
         @endif
