@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
         <div class="mx-auto col col-12 col-sm-11 col-md-9 col-lg-7 col-xl-6">
-            <h1 class="text-center"><a class="text-dark" href="/"><img class="mr-1 pb-1" src="{{ asset('img/ARCase.png') }}" alt="" />ARCase</a></h1>
+            <h1 class="text-center"><a class="text-dark" href="/"><img class="mr-1 pb-1" src="{{ asset('img/ARCase.png') }}" alt="" style="width: 40px;"/>ARCase</a></h1>
             <div class="card mt-3" style="background: rgba(0, 0, 0, 0)">
                 <div class="card-body text-center">
                     <h2 class="h3 card-title text-center mt-2">Login</h2>
