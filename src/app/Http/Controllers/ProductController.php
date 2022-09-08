@@ -10,7 +10,6 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\File;
-use Illuminate\Pagination\Paginator;
 
 class ProductController extends Controller
 {

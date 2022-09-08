@@ -23194,6 +23194,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[0] || (_cache[0] = function () {
       return $options.show && $options.show.apply($options, arguments);
     }),
+    accept: ".png, .jpg, .jpeg",
     style: {
       "display": "none"
     }
@@ -23257,6 +23258,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[0] || (_cache[0] = function () {
       return $options.show && $options.show.apply($options, arguments);
     }),
+    accept: ".png, .jpg, .jpeg",
     style: {
       "display": "none"
     }
@@ -23320,6 +23322,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[0] || (_cache[0] = function () {
       return $options.show && $options.show.apply($options, arguments);
     }),
+    accept: ".png, .jpg, .jpeg",
     style: {
       "display": "none"
     }
@@ -23383,6 +23386,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[0] || (_cache[0] = function () {
       return $options.show && $options.show.apply($options, arguments);
     }),
+    accept: ".png, .jpg, .jpeg",
     style: {
       "display": "none"
     }

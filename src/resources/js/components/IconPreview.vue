@@ -8,7 +8,7 @@
         </div>
       <label class="input-group-btn mb-0">
         <span class="btn purple-gradient py-1 grow">
-          画像選択<input type="file" name="icon_image" ref="preview" v-on:change="show" style="display:none">
+          画像選択<input type="file" name="icon_image" ref="preview" v-on:change="show" accept=".png, .jpg, .jpeg" style="display:none">
         </span>
       </label>
       </div>
