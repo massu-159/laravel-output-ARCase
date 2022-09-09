@@ -104,19 +104,19 @@
         
                       <div class="modal-body text-center">
                         <!-- Facebook -->
-                        <a class="js-sns-link btn mr-3 purple-gradient" href="//www.facebook.com/sharer/sharer.php?u=&t=" target="_blank"
+                        <a class="js-sns-link btn mr-3 purple-gradient" href="//www.facebook.com/sharer/sharer.php?t=share" target="_blank"
                           rel="nofollow noopener noreferrer"><i class="fab fa-facebook fa-2x"></i></a>
         
                         <!-- Twitter -->
-                        <a class="js-sns-link btn mr-3 purple-gradient" href="//twitter.com/intent/tweet?text=&url=" target="_blank"
+                        <a class="js-sns-link btn mr-3 purple-gradient" href="//twitter.com/intent/tweet?url={{ url()->full() }}&hashtags=ARCase" target="_blank"
                           rel="nofollow noopener noreferrer"><i class="fab fa-twitter fa-2x"></i></a>
         
                         <!-- LINE -->
-                        <a class="js-sns-link btn mr-3 purple-gradient" href="//timeline.line.me/social-plugin/share?url=&text=" target="_blank"
+                        <a class="js-sns-link btn mr-3 purple-gradient" href="//timeline.line.me/social-plugin/share?url={{ url()->full() }}" target="_blank"
                           rel="nofollow noopener noreferrer"><i class="fab fa-line fa-2x"></i></a>
         
                         <!-- ピンタレスト -->
-                        <a class="js-sns-link btn mr-3 purple-gradient" href="//www.pinterest.com/pin/create/button/?url=&media="
+                        <a class="js-sns-link btn mr-3 purple-gradient" href="//www.pinterest.com/pin/create/button/?url={{ url()->full() }}&media=https://arcase.s3.ap-northeast-1.amazonaws.com/{{ $product->image }}"
                           target="_blank" rel="nofollow noopener noreferrer"><i class="fab fa-pinterest fa-2x"></i></a>
 
                           <copy-clipboard :current-url="'{{ url()->full() }}'"></copy-clipboard>
