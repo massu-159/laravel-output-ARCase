@@ -1,4 +1,4 @@
-# laravel-sns-output(ARCase)
+# laravel-output-ARCase
 Laravelを使ったSNSアプリケーション
 <img width="1418" alt="画像" src="https://user-images.githubusercontent.com/75517054/195033903-22d28b59-d2f8-4b3c-9db4-92c3c8d34d26.png">
 
@@ -13,7 +13,7 @@ Herokuにデプロイ。
 <hr>
 
 urlはこちら
-https://github.com/massu-159/laravel-sns-output(ARCase)
+https://github.com/massu-159/laravel-output-ARCase
 
 ## アプリケーションの仕様
 
