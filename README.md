@@ -8,7 +8,8 @@ Laravelを使ったSNSアプリケーション
 
 Dockerで開発環境を構築。
 
-Herokuにデプロイ。
+~~Herokuにデプロイ。~~
+現在閉鎖中
 
 <hr>
 
