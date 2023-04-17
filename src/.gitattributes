@@ -5,6 +5,6 @@
 *.html diff=html
 *.md diff=markdown
 *.php diff=php
-*.js diff=typescript
+*.js linguist-language=TypeScript
 /.github export-ignore
 CHANGELOG.md export-ignore
